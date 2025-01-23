@@ -9,3 +9,6 @@ export type ObjectiveType = {
   title: string;
   keyResults: KeyResultType[ ];
 };
+export type ObjectiveTypeWithId = ObjectiveType & {
+  id:string,
+}

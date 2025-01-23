@@ -1,13 +1,9 @@
-import {ObjectiveType} from "../Types/OKRTypes.ts";
-
-type InitialObjectivesType = ObjectiveType & {
-  id : number
-}
-const db = new Map<number, InitialObjectivesType>()
-let dbIndex = 0;
-const initialObjectives: InitialObjectivesType[] = [
+import {ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
+import {v4 as uuidv4 } from "uuid";
+const db = new Map<string, ObjectiveTypeWithId>()
+const initialObjectives: ObjectiveTypeWithId[] = [
   {
-    id:dbIndex++,
+    id:uuidv4(),
     title: "Build Team",
     keyResults: [
       {
@@ -27,7 +23,7 @@ const initialObjectives: InitialObjectivesType[] = [
     ]
   },
   {
-    id:dbIndex++,
+    id:uuidv4(),
     title: "Sale the Product",
     keyResults: [
       {
@@ -41,16 +37,17 @@ const initialObjectives: InitialObjectivesType[] = [
   }
 ]
 
-initialObjectives.forEach((objective: InitialObjectivesType)=>{
+initialObjectives.forEach((objective: ObjectiveTypeWithId)=>{
     console.log(db.values())
   db.set(objective.id, objective);
 })
 
 
-function getOKRData():Promise<ObjectiveType[]>{
+function getOKRData():Promise<ObjectiveTypeWithId[]>{
   return new Promise((resolve)=>{
     setTimeout(()=>{
       resolve(Array.from(db.values()));
+      console.log(Array.from(db.values()));
     },3000)
   })
 }
@@ -58,13 +55,12 @@ function getOKRData():Promise<ObjectiveType[]>{
 function insertOKRData(objective:ObjectiveType):Promise<void>{
   return new Promise((resolve)=>{
 
-    const objectiveToBeAdded:InitialObjectivesType = {
-      id:dbIndex++,
-      title:objective.title,
-      keyResults:objective.keyResults
+    const objectiveToBeAdded:ObjectiveTypeWithId = {
+      id:uuidv4(),
+      ...objective
     }
     setTimeout(()=>{
-      db.set(dbIndex++, objectiveToBeAdded);
+      db.set(uuidv4(), objectiveToBeAdded);
       resolve();
     },3000)
     console.log(objectiveToBeAdded);

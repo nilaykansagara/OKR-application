@@ -1,20 +1,23 @@
-import {ObjectiveType} from "../Types/OKRTypes.ts";
+import {ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {AddKeyResultModal} from "./AddKeyResultModal.tsx";
 import {useState} from "react";
 
 type ShowOKRsProps = {
   objectives: ObjectiveType[],
-  setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[] | null>>
+  setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[]>>
+    objectivesWithId: ObjectiveTypeWithId[] ,
+    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[] >>
 }
 
 export function ShowOKRs({
                            objectives,
-                           setObjectives
+                           setObjectives,
+                             objectivesWithId
                          }: ShowOKRsProps) {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentObjective, setCurrentObjective] = useState<ObjectiveType>();
+  const [currentObjective, setCurrentObjective] = useState<ObjectiveType | undefined>();
 
   function deleteKeyResult(objIndex: number, keyResultIndex: number) {
     const keyResultToDelete = objectives[objIndex].keyResults[keyResultIndex];
@@ -32,8 +35,8 @@ export function ShowOKRs({
   return (
     <div>
       <div className=" px-4 space-y-4 mx-24 ">
-        {objectives.length > 0 ? (
-          objectives.map((objective, index) => {
+        {objectivesWithId && objectivesWithId.length > 0 ? (
+            objectivesWithId.map((objective, index) => {
             return (
               <>
                 <div
@@ -99,8 +102,8 @@ export function ShowOKRs({
           </div>
         )}
       </div>
-      <AddKeyResultModal isOpen={isOpen} setObjectives={setObjectives} objective={currentObjective}
-                         objectives={objectives} setIsOpen={setIsOpen}></AddKeyResultModal>
+        <AddKeyResultModal isOpen={isOpen} setObjectives={setObjectives} objective={currentObjective}
+                           objectives={objectives} setIsOpen={setIsOpen}></AddKeyResultModal>
     </div>
 
 
