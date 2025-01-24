@@ -1,16 +1,16 @@
 import {useState} from "react";
-import {KeyResultType, ObjectiveType} from "../Types/OKRTypes.ts";
+import {KeyResultType, ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 
 type AddKeyResultModalProps = {
   isOpen: boolean,
-  objective: ObjectiveType  |  undefined,
-  setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[]>>,
-  objectives: ObjectiveType[],
+  currentObjectiveWithId: ObjectiveTypeWithId  |  null | undefined,
+  setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[]>>,
+  objectivesWithId: ObjectiveTypeWithId[],
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export function AddKeyResultModal({isOpen, objective, setObjectives, objectives, setIsOpen}:AddKeyResultModalProps) {
+export function AddKeyResultModal({isOpen, currentObjectiveWithId, setObjectivesWithId, objectivesWithId, setIsOpen}:AddKeyResultModalProps) {
   const [newKeyResult, setNewKeyResult] = useState<KeyResultType>(
       {
         title: "string",
@@ -22,17 +22,18 @@ export function AddKeyResultModal({isOpen, objective, setObjectives, objectives,
   );
 
   const addKeyResult = () => {
-    objectives.map((key: ObjectiveType) => {
-      if (key === objective) {
-        console.log(key);
-        key.keyResults.push(newKeyResult);
-        console.log(key);
-      }
-    })
-    setObjectives([
-      ...objectives,
-    ]);
-    console.log(objectives);
+          objectivesWithId.map((key: ObjectiveType) => {
+              if (key === currentObjectiveWithId) {
+                  console.log(key);
+                  key.keyResults.push(newKeyResult);
+                  console.log(key);
+              }
+          })
+          setObjectivesWithId([
+              ...objectivesWithId,
+          ]);
+
+    console.log(objectivesWithId);
   };
 
   function handleChange(key: string, input: string | number) {

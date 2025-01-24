@@ -1,12 +1,13 @@
-import {useEffect, useState} from "react";
-import {ObjectiveType, ObjectiveTypeWithId} from "./Types/OKRTypes.ts";
+import {useContext, useEffect, useState} from "react";
+import { ObjectiveTypeWithId} from "./Types/OKRTypes.ts";
 import {CreateOkrForm} from "./Components/CreateOkrForm.tsx";
 import {ShowOKRs} from "./Components/ShowOKRs.tsx";
 import {getOKRData} from "./OKR-store/OKR-Data.ts";
+import {OKRContext} from "./provider/OKRProvider.tsx";
 
 
 function App() {
-  const [objectives, setObjectives] = useState<ObjectiveType[]>([]);
+  const {objectives, setObjectives} = useContext(OKRContext);
   const [objectivesWithId, setObjectivesWithId] = useState<ObjectiveTypeWithId[] >([]);
 
   const isLoading = objectivesWithId===null;
@@ -29,8 +30,6 @@ function App() {
         setObjectivesWithId={setObjectivesWithId}
       />
       {isLoading ? (<p>Loading...</p>) : (<ShowOKRs
-          objectives={objectives}
-          setObjectives={setObjectives}
         objectivesWithId={objectivesWithId}
         setObjectivesWithId={setObjectivesWithId}
       />)}
