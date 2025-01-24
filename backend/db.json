@@ -1,0 +1,24 @@
+{
+  "objectives": [
+    {
+      "id": "1",
+      "title": "Build a software team",
+      "keyResults": [
+        {
+          "title": "Get 5 Frontend engineers",
+          "initialValue": 0,
+          "currentValue": 2,
+          "targetValue": 5,
+          "metrics": "engineers"
+        },
+        {
+          "title": "Get 5 Backend engineers",
+          "initialValue": 0,
+          "currentValue": 1,
+          "targetValue": 5,
+          "metrics": "engineers"
+        }
+      ]
+    }
+  ]
+}
