@@ -2,6 +2,8 @@ import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {AddKeyResultModal} from "./AddKeyResultModal.tsx";
 import {useState} from "react";
+import {deleteOKRData, getOKRData, updateOKRData} from "../OKR-store/OKR-Data.ts";
+import {UpdateObjectiveModal} from "./UpdateObjectiveModal.tsx";
 
 type ShowOKRsProps = {
     objectivesWithId: ObjectiveTypeWithId[],
@@ -14,20 +16,25 @@ export function ShowOKRs({
                          }: ShowOKRsProps) {
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isUpdateObjectiveOpen, setIsUpdateObjectiveOpen] = useState<boolean>(false);
     //const [isOpenUpdateObjectiveModal, setIsOpenUpdateObjectiveModal] = useState<boolean>(false);
     const [currentObjective, setCurrentObjective] = useState<ObjectiveTypeWithId | null>();
 
     function deleteKeyResult(objIndex: number, keyResultIndex: number) {
 
-        const keyResultToDelete = objectivesWithId[objIndex].keyResults[keyResultIndex];
-        objectivesWithId[objIndex].keyResults = objectivesWithId[objIndex].keyResults.filter(key => key != keyResultToDelete);
-        setObjectivesWithId([...objectivesWithId]);
+        const selectedObjective = objectivesWithId[objIndex];
+        const keyResultToDelete = selectedObjective.keyResults[keyResultIndex];
+        selectedObjective.keyResults = selectedObjective.keyResults.filter(key => key != keyResultToDelete);
+        updateOKRData({...objectivesWithId[objIndex]}).then(() => {
+            setObjectivesWithId([...objectivesWithId])
+        });
     }
 
     function deleteObjective(objectiveWithId: ObjectiveTypeWithId) {
+        deleteOKRData(objectiveWithId.id).then(() => {
+            getOKRData().then((values)=>setObjectivesWithId(values));
 
-            const objectiveTemp = objectivesWithId.filter(key => key != objectiveWithId);
-            setObjectivesWithId([...objectiveTemp]);
+        });
     }
 
     function updateObjective(objective: ObjectiveTypeWithId) {
@@ -71,7 +78,8 @@ export function ShowOKRs({
                                                 className=" px-2 bg-red-500 hover:bg-red-600 rounded-md text-white py-1 text-sm "
                                                 onClick={() => {
                                                     updateObjective(objective);
-                                                    //setIsOpenUpdateObjectiveModal(true)
+                                                    setCurrentObjective(objective)
+                                                    setIsUpdateObjectiveOpen(true);
                                                 }}>
                                                 Update Objective
                                             </button>
@@ -94,10 +102,7 @@ export function ShowOKRs({
                                     }}>
                               Delete
                             </button>
-                          </span>
-
-
-                                                    <span className="flex justify-between">
+                          </span><span className="flex justify-between">
                             <p>Initial: {kr.initialValue}</p>
                             <p>Current: {kr.currentValue}</p>
                             <p>Target: {kr.targetValue}</p>
@@ -120,6 +125,8 @@ export function ShowOKRs({
             <AddKeyResultModal isOpen={isOpen} setObjectivesWithId={setObjectivesWithId}
                                currentObjectiveWithId={currentObjective}
                                objectivesWithId={objectivesWithId} setIsOpen={setIsOpen}></AddKeyResultModal>
+            <UpdateObjectiveModal objective={currentObjective} isUpdateObjectiveOpen={isUpdateObjectiveOpen}
+                                  setIsUpdateObjectiveOpen={setIsUpdateObjectiveOpen}></UpdateObjectiveModal>
 
         </div>
 

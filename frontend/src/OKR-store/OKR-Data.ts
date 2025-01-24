@@ -1,72 +1,28 @@
 import {ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
-import {v4 as uuidv4 } from "uuid";
 
-const db = new Map<string, ObjectiveTypeWithId>()
-const initialObjectives: ObjectiveTypeWithId[] = [
-  {
-    id:uuidv4(),
-    title: "Build Team",
-    keyResults: [
-      {
-        title: "Hire Frontend Developers",
-        initialValue: 0,
-        targetValue: 5,
-        currentValue: 1,
-        metrics: "Developers"
-      },
-      {
-        title: "Hire Backend Developers",
-        initialValue: 0,
-        targetValue: 5,
-        currentValue: 1,
-        metrics: "Developers"
-      }
-    ]
-  },
-  {
-    id:uuidv4(),
-    title: "Sale the Product",
-    keyResults: [
-      {
-        title: "Hire Salesman",
-        initialValue: 0,
-        targetValue: 5,
-        currentValue: 1,
-        metrics: "Developers"
-      }
-    ]
-  }
-]
-
-initialObjectives.forEach((objective: ObjectiveTypeWithId)=>{
-    console.log(db.values())
-  db.set(objective.id, objective);
-})
+const jsonAPI = "http://localhost:3000/objectives";
 
 
-
-function getOKRData():Promise<ObjectiveTypeWithId[]>{
-  return new Promise((resolve)=>{
-    setTimeout(()=>{
-      resolve(Array.from(db.values()));
-      console.log(Array.from(db.values()));
-    },3000)
-  })
+async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
+    const response = await fetch(jsonAPI, {method: "GET"});
+    return await response.json();
 }
 
-function insertOKRData(objective:ObjectiveType):Promise<void>{
-  return new Promise((resolve)=>{
+async function insertOKRData(objective: ObjectiveType): Promise<void> {
+    await fetch(jsonAPI, {method: "POST", body: JSON.stringify(objective)})
+}
 
-    const objectiveToBeAdded:ObjectiveTypeWithId = {
-      id:uuidv4(),
-      ...objective
+async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
+    await fetch(jsonAPI+"/"+objective.id, {method: "PUT", body: JSON.stringify(objective)})
+}
+
+async function deleteOKRData(id:string): Promise<void> {
+    try{
+        await fetch(jsonAPI+"/"+id, {method: "DELETE"})
+    }catch(e){
+        console.log(e)
     }
-    setTimeout(()=>{
-      db.set(uuidv4(), objectiveToBeAdded);
-      resolve();
-    },3000)
-    console.log(objectiveToBeAdded);
-  })
 }
 
-export{getOKRData,insertOKRData}
+
+export {getOKRData, insertOKRData, updateOKRData, deleteOKRData}
