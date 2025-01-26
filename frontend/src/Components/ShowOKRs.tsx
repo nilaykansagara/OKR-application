@@ -2,8 +2,9 @@ import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {AddKeyResultModal} from "./AddKeyResultModal.tsx";
 import {useState} from "react";
-import {deleteOKRData, getOKRData, updateOKRData} from "../OKR-store/OKR-Data.ts";
+import {deleteOKRData, getOKRData} from "../OKR-store/OKR-Data.ts";
 import {UpdateObjectiveModal} from "./UpdateObjectiveModal.tsx";
+import {useDeleteKeyResult} from "../Custom-Hooks/useDeleteKeyResult.tsx";
 
 type ShowOKRsProps = {
     objectivesWithId: ObjectiveTypeWithId[],
@@ -20,15 +21,8 @@ export function ShowOKRs({
     //const [isOpenUpdateObjectiveModal, setIsOpenUpdateObjectiveModal] = useState<boolean>(false);
     const [currentObjective, setCurrentObjective] = useState<ObjectiveTypeWithId | null>();
 
-    function deleteKeyResult(objIndex: number, keyResultIndex: number) {
 
-        const selectedObjective = objectivesWithId[objIndex];
-        const keyResultToDelete = selectedObjective.keyResults[keyResultIndex];
-        selectedObjective.keyResults = selectedObjective.keyResults.filter(key => key != keyResultToDelete);
-        updateOKRData({...objectivesWithId[objIndex]}).then(() => {
-            setObjectivesWithId([...objectivesWithId])
-        });
-    }
+    const {deleteKeyResult} = useDeleteKeyResult({objectivesWithId, setObjectivesWithId});
 
     function deleteObjective(objectiveWithId: ObjectiveTypeWithId) {
         deleteOKRData(objectiveWithId.id).then(() => {

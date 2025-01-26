@@ -8,15 +8,17 @@
     {
       "id": "9935",
       "title": "Hello",
-      "keyResults": [
-        {
-          "title": "World",
-          "initialValue": "1",
-          "currentValue": "5",
-          "targetValue": "9",
-          "metrics": "slffff"
-        }
-      ]
+      "keyResults": []
+    },
+    {
+      "id": "73ad",
+      "title": "",
+      "keyResults": []
+    },
+    {
+      "id": "c39d",
+      "title": "dpksmc",
+      "keyResults": []
     }
   ]
 }
