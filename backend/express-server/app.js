@@ -1,4 +1,6 @@
-import  express from 'express';
+import express from 'express';
+import {faker} from "@faker-js/faker";
+
 const app = express();
 
 app.use(express.json());
@@ -6,7 +8,13 @@ app.use(express.json());
 const port = 3005;
 
 app.get('/', (req, res) => {
-    res.send("Hello World Good Morning");
+    const dummyObject = {
+        "name": faker.person.fullName(),
+        "email": faker.internet.email(),
+        "gender": faker.person.gender(),
+        "Job Area": faker.person.jobArea()
+    }
+    res.status(200).send(dummyObject);
 });
 
 app.listen(port, () => {
