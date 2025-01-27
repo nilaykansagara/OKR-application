@@ -4,6 +4,7 @@ export class ObjectivesController {
     }
 
     fetchAll(res) {
-        return res.status(200).json(this.objectiveService.fetchAll());
+        const objectives = this.objectiveService.fetchAll();
+        return res.status(200).json(objectives);
     }
 }

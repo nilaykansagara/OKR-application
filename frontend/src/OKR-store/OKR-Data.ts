@@ -1,6 +1,6 @@
 import {ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 
-const jsonAPI = "http://localhost:3000/objectives";
+const jsonAPI = "http://localhost:3005/objectives";
 
 
 async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
@@ -13,13 +13,13 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
 }
 
 async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
-    await fetch(jsonAPI+"/"+objective.id, {method: "PUT", body: JSON.stringify(objective)})
+    await fetch(jsonAPI + "/" + objective.id, {method: "PUT", body: JSON.stringify(objective)})
 }
 
-async function deleteOKRData(id:string): Promise<void> {
-    try{
-        await fetch(jsonAPI+"/"+id, {method: "DELETE"})
-    }catch(e){
+async function deleteOKRData(id: string): Promise<void> {
+    try {
+        await fetch(jsonAPI + "/" + id, {method: "DELETE"})
+    } catch (e) {
         console.log(e)
     }
 }
