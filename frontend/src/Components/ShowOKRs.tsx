@@ -6,8 +6,8 @@ import {UpdateObjectiveModal} from "./UpdateObjectiveModal.tsx";
 import {useDeleteKeyResult, useDeleteObjective} from "../Custom-Hooks/CustomHooks.tsx";
 
 type ShowOKRsProps = {
-    objectivesWithId: ObjectiveTypeWithId[] | null,
-    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[] | null>>
+    objectivesWithId: ObjectiveTypeWithId[],
+    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[]>>
 }
 
 export function ShowOKRs({
