@@ -2,13 +2,12 @@ import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {AddKeyResultModal} from "./AddKeyResultModal.tsx";
 import {useState} from "react";
-import {deleteOKRData, getOKRData} from "../OKR-store/OKR-Data.ts";
 import {UpdateObjectiveModal} from "./UpdateObjectiveModal.tsx";
-import {useDeleteKeyResult} from "../Custom-Hooks/useDeleteKeyResult.tsx";
+import {useDeleteKeyResult, useDeleteObjective} from "../Custom-Hooks/CustomHooks.tsx";
 
 type ShowOKRsProps = {
-    objectivesWithId: ObjectiveTypeWithId[],
-    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[]>>
+    objectivesWithId: ObjectiveTypeWithId[] | null,
+    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[] | null>>
 }
 
 export function ShowOKRs({
@@ -18,23 +17,11 @@ export function ShowOKRs({
 
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isUpdateObjectiveOpen, setIsUpdateObjectiveOpen] = useState<boolean>(false);
-    //const [isOpenUpdateObjectiveModal, setIsOpenUpdateObjectiveModal] = useState<boolean>(false);
     const [currentObjective, setCurrentObjective] = useState<ObjectiveTypeWithId | null>();
 
 
     const {deleteKeyResult} = useDeleteKeyResult({objectivesWithId, setObjectivesWithId});
-
-    function deleteObjective(objectiveWithId: ObjectiveTypeWithId) {
-        deleteOKRData(objectiveWithId.id).then(() => {
-            getOKRData().then((values)=>setObjectivesWithId(values));
-
-        });
-    }
-
-    function updateObjective(objective: ObjectiveTypeWithId) {
-        console.log("objective to be updated is:", objective)
-
-    }
+    const {deleteObjective} = useDeleteObjective({objectivesWithId, setObjectivesWithId});
 
     return (
         <div>
@@ -71,7 +58,6 @@ export function ShowOKRs({
                                             <button
                                                 className=" px-2 bg-red-500 hover:bg-red-600 rounded-md text-white py-1 text-sm "
                                                 onClick={() => {
-                                                    updateObjective(objective);
                                                     setCurrentObjective(objective)
                                                     setIsUpdateObjectiveOpen(true);
                                                 }}>

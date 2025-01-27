@@ -5,7 +5,7 @@ import {getOKRData, insertOKRData} from "../OKR-store/OKR-Data.ts";
 type CreateOkrFormProps = {
   objectives: ObjectiveType[] | null,
   setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[] | null>>,
-  setObjectivesWithId : React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[]>>
+  setObjectivesWithId : React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[] | null>>
 }
 
 const CreateOkrForm = ({
@@ -14,7 +14,13 @@ const CreateOkrForm = ({
                          setObjectivesWithId,
                        }: CreateOkrFormProps) => {
   const [newObjective, setNewObjective] = useState<string>("");
-  const [keyResults, setKeyResults] = useState<KeyResultType[]>([]);
+  const [keyResults, setKeyResults] = useState<KeyResultType[]>([{
+    title: "string",
+    initialValue: 1,
+    currentValue: 1,
+    targetValue: 1,
+    metrics: "string",
+  }]);
 
   async function addObjective(){
     setObjectives([

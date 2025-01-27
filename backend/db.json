@@ -1,24 +1,37 @@
 {
   "objectives": [
     {
-      "id": "4930",
-      "title": "pol",
-      "keyResults": []
+      "id": "c5e6",
+      "title": "Build Team",
+      "keyResults": [
+        {
+          "title": "Hire Frontend devs.",
+          "initialValue": "0",
+          "currentValue": "2",
+          "targetValue": "5",
+          "metrics": "Devs"
+        }
+      ]
     },
     {
-      "id": "9935",
-      "title": "Hello",
-      "keyResults": []
-    },
-    {
-      "id": "73ad",
-      "title": "",
-      "keyResults": []
-    },
-    {
-      "id": "c39d",
-      "title": "dpksmc",
-      "keyResults": []
+      "id": "5d50",
+      "title": "Sale products",
+      "keyResults": [
+        {
+          "title": "Hire sales person",
+          "initialValue": "0",
+          "currentValue": "4",
+          "targetValue": "5",
+          "metrics": "sales person"
+        },
+        {
+          "title": "Give demo to client",
+          "initialValue": "0",
+          "currentValue": "1",
+          "targetValue": "5",
+          "metrics": "demo"
+        }
+      ]
     }
   ]
 }

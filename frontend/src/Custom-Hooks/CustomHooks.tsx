@@ -1,4 +1,4 @@
-import {updateOKRData} from "../OKR-store/OKR-Data.ts";
+import {deleteOKRData, getOKRData, updateOKRData} from "../OKR-store/OKR-Data.ts";
 import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {useCallback} from "react";
@@ -22,4 +22,15 @@ function useDeleteKeyResult({objectivesWithId, setObjectivesWithId}: useDeleteKe
     return {deleteKeyResult};
 }
 
-export{useDeleteKeyResult}
+function useDeleteObjective({objectivesWithId, setObjectivesWithId}: useDeleteKeyResultProps) {
+    const deleteObjective = useCallback((objectiveWithId: ObjectiveTypeWithId) => {
+            deleteOKRData(objectiveWithId.id).then(() => {
+                getOKRData().then((values)=>setObjectivesWithId(values));
+            });
+        },
+        [objectivesWithId,setObjectivesWithId]
+    );
+    return {deleteObjective};
+}
+
+export{useDeleteKeyResult, useDeleteObjective}

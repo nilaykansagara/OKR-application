@@ -1,4 +1,4 @@
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {ObjectiveTypeWithId} from "./Types/OKRTypes.ts";
 import {CreateOkrForm} from "./Components/CreateOkrForm.tsx";
 import {ShowOKRs} from "./Components/ShowOKRs.tsx";
@@ -9,8 +9,7 @@ import {Routes, Route, Link} from "react-router";
 
 function App() {
 
-    const {objectives, setObjectives} = useContext(OKRContext);
-    const [objectivesWithId, setObjectivesWithId] = useState<ObjectiveTypeWithId[]>([]);
+    const {objectives, setObjectives, objectivesWithId, setObjectivesWithId} = useContext(OKRContext);
     const isLoading = objectivesWithId === null;
 
     useEffect(() => {
