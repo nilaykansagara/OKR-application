@@ -7,14 +7,22 @@ app.use(express.json());
 
 const port = 3005;
 
+const mockObjective = {
+    id:  faker.string.uuid(),
+    title: faker.company.buzzPhrase(),
+    keyResults: [
+        {
+            title:faker.company.catchPhrase(),
+            initialValue: faker.number.int({ min: 0, max: 10 }),
+            currentValue: faker.number.int({ min: 10, max: 50 }),
+            targetValue: faker.number.int({ min: 50, max: 100 }),
+            metrics: faker.company.buzzAdjective()
+        }
+    ]
+}
+
 app.get('/', (req, res) => {
-    const dummyObject = {
-        "name": faker.person.fullName(),
-        "email": faker.internet.email(),
-        "gender": faker.person.gender(),
-        "Job Area": faker.person.jobArea()
-    }
-    res.status(200).send(dummyObject);
+    res.status(200).json(mockObjective);
 });
 
 app.listen(port, () => {
