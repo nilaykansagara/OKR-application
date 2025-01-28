@@ -6,7 +6,7 @@ export class HelloWorldController {
     constructor(private helloWorldService: HelloWorldService) {
     }
 
-    @Get("/")
+    @Get('/')
     show(): string {
         return this.helloWorldService.show();
     }
