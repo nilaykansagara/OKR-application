@@ -2,7 +2,8 @@ import {Module} from '@nestjs/common';
 
 import {HelloWorldModule} from './hello-world/hello-world.module';
 import { ObjectivesModule } from './objectives/objectives.module';
+import { DatabaseModule } from './database/database.module';
 
-@Module({imports: [HelloWorldModule, ObjectivesModule]})
+@Module({imports: [HelloWorldModule, ObjectivesModule, DatabaseModule]})
 export class AppModule {
 }
