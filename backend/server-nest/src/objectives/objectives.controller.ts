@@ -13,8 +13,7 @@ export class ObjectivesController {
     }
 
     @Post('/')
-
     create(@Body() createObjectiveDto: CreateObjectiveDto) {
-        return this.objectivesService.create(createObjectiveDto);
+        return this.objectivesService.createOne(createObjectiveDto);
     }
 }
