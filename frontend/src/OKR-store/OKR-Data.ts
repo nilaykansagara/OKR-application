@@ -6,6 +6,10 @@ const jsonAPI = "http://localhost:3005/objectives";
 async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
     const response = await fetch(jsonAPI, {method: "GET"});
     return await response.json();
+
+    // const objectives = await fetch(objectivesAPI, {method: "GET"});
+    // const keyResults = await fetch(keyResultsAPI, {method: "GET"});
+    // const objectivesWithId[]:ObjectiveTypeWithId[];
 }
 
 async function insertOKRData(objective: ObjectiveType): Promise<void> {
