@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 import {KeyResultsService} from "./key-results.service";
 import {KeyResultDto} from "./key-result.dto";
 
@@ -15,5 +15,17 @@ export class KeyResultsController {
     @Post('/')
     createOne(@Body() keyResultDto: KeyResultDto) {
         return this.keyResultsService.createOne(keyResultDto);
+    }
+
+    @Put(':id')
+    updateOne(@Param('id') id: string, @Body() keyResultDto: KeyResultDto) {
+        const keyResultId = parseInt(id, 10);
+        return this.keyResultsService.updateOne(keyResultId, keyResultDto);
+    }
+
+    @Delete(':id')
+    deleteOne(@Param('id') id: string) {
+        const keyResultId = parseInt(id, 10);
+        return this.keyResultsService.deleteOne(keyResultId);
     }
 }

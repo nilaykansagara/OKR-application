@@ -16,4 +16,14 @@ export class KeyResultsService {
         const keyResult = await this.prismaService.keyResult.create({data: keyResultDto});
         return keyResult;
     }
+
+    async updateOne(id: number, keyResultDto: KeyResultDto) {
+        const keyResult = await this.prismaService.keyResult.update({where: {id: id}, data: keyResultDto});
+        return keyResult;
+    }
+
+    async deleteOne(id: number) {
+        const keyResult = await this.prismaService.keyResult.delete({where: {id: id}});
+        return keyResult;
+    }
 }
