@@ -26,5 +26,21 @@ describe('KeyResultCompletionService', () => {
             const response = service.isComplete(dummyKeyResult);
             expect(response).toBeTruthy();
         });
+        it('should return false if current value is less than target value', () => {
+            const response = service.isComplete({
+                ...dummyKeyResult,
+                current_value: 0,
+                target_value: 1,
+            });
+            expect(response).toBeFalsy();
+        });
+        it('should return false if current value is more than target value', () => {
+            const response = service.isComplete({
+                ...dummyKeyResult,
+                current_value: 2,
+                target_value: 1,
+            });
+            expect(response).toBeFalsy();
+        });
     })
 });
