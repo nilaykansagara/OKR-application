@@ -17,4 +17,14 @@ export class ObjectivesService {
         const objective = await this.prismaService.objective.create({data: objectiveDto});
         return objective;
     }
+
+    async updateOne(id: number, objectiveDto: ObjectiveDto) {
+        const objective = await this.prismaService.objective.update({where: {id: id}, data: objectiveDto});
+        return objective;
+    }
+
+    async deleteOne(id: number) {
+        const objective = await this.prismaService.objective.delete({where: {id: id}});
+        return objective;
+    }
 }

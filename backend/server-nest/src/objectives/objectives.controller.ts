@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 import {ObjectivesService} from './objectives.service';
 import {ObjectiveDto} from "./objectives.dto";
 
@@ -13,7 +13,19 @@ export class ObjectivesController {
     }
 
     @Post('/')
-    createOne(@Body() createObjectiveDto: ObjectiveDto) {
-        return this.objectivesService.createOne(createObjectiveDto);
+    createOne(@Body() objectiveDto: ObjectiveDto) {
+        return this.objectivesService.createOne(objectiveDto);
+    }
+
+    @Put(':id')
+    updateOne(@Param('id') id: string, @Body() objectiveDto: ObjectiveDto) {
+        const objectiveId = parseInt(id, 10);
+        return this.objectivesService.updateOne(objectiveId, objectiveDto);
+    }
+
+    @Delete(':id')
+    deleteOne(@Param('id') id: string) {
+        const objectiveId = parseInt(id, 10);
+        return this.objectivesService.deleteOne(objectiveId);
     }
 }
