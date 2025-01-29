@@ -1,6 +1,6 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {ObjectivesService} from './objectives.service';
-import {CreateObjectiveDto} from "./objectives.dto";
+import {ObjectiveDto} from "./objectives.dto";
 
 @Controller('objectives')
 export class ObjectivesController {
@@ -13,7 +13,7 @@ export class ObjectivesController {
     }
 
     @Post('/')
-    create(@Body() createObjectiveDto: CreateObjectiveDto) {
+    createOne(@Body() createObjectiveDto: ObjectiveDto) {
         return this.objectivesService.createOne(createObjectiveDto);
     }
 }
