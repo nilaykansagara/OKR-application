@@ -12,6 +12,11 @@ export class KeyResultsService {
         return keyResults;
     }
 
+    async fetchUnique(id: number) {
+        const keyResult = await this.prismaService.keyResult.findUnique({where: {id}});
+        return keyResult;
+    }
+
     async createOne(keyResultDto: KeyResultDto) {
         const keyResult = await this.prismaService.keyResult.create({data: keyResultDto});
         return keyResult;
