@@ -74,4 +74,32 @@ describe('ObjectivesService', () => {
         // })
 
     })
+
+    describe('createOne()', () => {
+        it('should call create method of createOne method with given objective', async () => {
+            //arrange
+
+            //act
+            await service.createOne({title: "dummy objective 1"});
+
+            //assert
+            expect(prismaService.objective.create).toHaveBeenCalled();
+        })
+
+        it('should create objective and return that objective', async () => {
+
+            //arrange
+            const dummyObjective = {
+                id: 1, title: "dummy 1"
+            }
+            prismaService.objective.create.mockResolvedValue(dummyObjective)
+
+            //act
+            const response = await service.createOne({title: "dummy objective 1"});
+
+            //assert
+            expect(response).toEqual(dummyObjective);
+        })
+
+    })
 });
