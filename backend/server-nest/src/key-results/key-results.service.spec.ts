@@ -2,31 +2,48 @@ import {KeyResultsService} from "./key-results.service";
 import {Test, TestingModule} from "@nestjs/testing";
 import {PrismaService} from "../prisma/prisma.service";
 import {ObjectiveDto} from "../objectives/objectives.dto";
+import {mockDeep} from "jest-mock-extended";
+import {KeyResultDto} from "./key-result.dto";
 
 describe("KeyResultsService", () => {
 
     let keyResultsService: KeyResultsService;
-    let prismaService: PrismaService;
+    const prismaService = mockDeep<PrismaService>();
+
     let module: TestingModule;
     beforeEach(async () => {
+        // (async function () {
         module = await Test.createTestingModule({
-            providers: [KeyResultsService, PrismaService]
+            providers: [KeyResultsService, {
+                provide: PrismaService,
+                useValue: prismaService
+            }]
         }).compile();
         keyResultsService = module.get<KeyResultsService>(KeyResultsService);
-        prismaService = module.get<PrismaService>(PrismaService)
+        // })()
+
+
     })
 
     describe("fetch unique function", () => {
         let objective: ObjectiveDto & { id: number }
         beforeEach(async () => {
-            await prismaService.keyResult.deleteMany();
-            await prismaService.objective.deleteMany();
+            prismaService.keyResult.findUnique.mockResolvedValue({
+                id: 1,
+                title: "dummy keyresult 1",
+                initial_value: 0,
+                current_value: 1,
+                target_value: 100,
+                metrics: "dummy metrics",
+                objectiveId: 1
+            })
             objective = await prismaService.objective.create({
-                data: {title: "dummy objective 2",}
+                data: {title: "dummy objective 1",}
             })
         })
 
         it("should return unique key result", async () => {
+
             const response = await keyResultsService.fetchUnique(3);
             console.log(response);
             expect(response).toBeDefined();
@@ -40,13 +57,37 @@ describe("KeyResultsService", () => {
                 current_value: 1,
                 target_value: 100,
                 metrics: "dummy metrics",
-                objectiveId: objective.id
+                objectiveId: 1
             }
+            expect(await keyResultsService.fetchUnique(1)).toEqual({...dummyKeyResult, id: expect.any(Number)})
+        })
+    })
 
-            const keyResult = await prismaService.keyResult.create({
-                data: dummyKeyResult
-            });
-            expect(keyResult).toEqual({...keyResult, id: expect.any(Number)})
+    describe("create keyResult", () => {
+        let dummyKeyResult: KeyResultDto & { id: number }
+        beforeEach(async () => {
+            dummyKeyResult = {
+                id: 1,
+                title: "dummy keyresult 1",
+                initial_value: 0,
+                current_value: 1,
+                target_value: 100,
+                metrics: "dummy metrics",
+                objectiveId: 1
+            };
+            prismaService.keyResult.create.mockResolvedValue(dummyKeyResult);
+        })
+
+        it("should create keyResult and return keyResult", async () => {
+            const response = await keyResultsService.createOne({
+                title: "dummy keyresult 1",
+                initial_value: 0,
+                current_value: 1,
+                target_value: 100,
+                metrics: "dummy metrics",
+                objectiveId: 1
+            })
+            expect(dummyKeyResult).toEqual(response)
         })
     })
 })
