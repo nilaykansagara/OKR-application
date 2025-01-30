@@ -9,8 +9,13 @@ export class ObjectivesService {
     }
 
     async getAll() {
-        const objectives = await this.prismaService.objective.findMany();
-        return objectives;
+        try {
+            const objectives = await this.prismaService.objective.findMany();
+            return objectives;
+        } catch (error) {
+            throw new Error('Failed to fetch objectives');
+        }
+
     }
 
     async createOne(objectiveDto: ObjectiveDto) {
