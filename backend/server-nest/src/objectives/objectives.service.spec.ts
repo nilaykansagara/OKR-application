@@ -23,14 +23,14 @@ describe('ObjectivesService', () => {
     });
 
     describe('getAll()', () => {
-        it('should call findMany method of getAll method', async () => {
-            //arrange
+        it('should call findMany method of prisma service', async () => {
 
             //act
             await service.getAll();
 
             //assert
             expect(prismaService.objective.findMany).toHaveBeenCalled();
+
         })
 
         it('should return all objectives', async () => {
@@ -55,29 +55,27 @@ describe('ObjectivesService', () => {
             expect(response).toEqual(dummyArrayOfObjective);
         })
 
-        // it('should throw an error when findMany fails', async () => {
-        //
-        //     //arrange
-        //     const errorMessage = "Failed to fetch objective";
-        //     const error = new Error(errorMessage);
-        //     prismaService.objective.findMany.mockResolvedValue(new Error(errorMessage));
-        //
-        //     //act
-        //     try {
-        //         await service.getAll();
-        //     } catch (error) {
-        //         // Assert: Ensure the error is of type Error and has the expected message
-        //         expect(error).toBeInstanceOf(Error);
-        //         expect(error.message).toBe(errorMessage);
-        //     }
-        //     //assert
-        // })
+        it('should throw an error when findMany fails', async () => {
+
+            //arrange
+            const errorMessage = "Failed to fetch objectives";
+            const error = new Error(errorMessage);
+            prismaService.objective.findMany.mockRejectedValue(error);
+
+            //act & assert
+            try {
+                await service.getAll();
+            } catch (error) {
+                expect(error).toBeInstanceOf(Error);
+                expect(error.message).toBe(errorMessage);
+            }
+
+        })
 
     })
 
     describe('createOne()', () => {
-        it('should call create method of createOne method with given objective', async () => {
-            //arrange
+        it('should call create method of prisma service with given objective', async () => {
 
             //act
             await service.createOne({title: "dummy objective 1"});
