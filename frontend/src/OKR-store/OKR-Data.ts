@@ -57,7 +57,6 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
         });
         return response.json();  // Assuming the response is a JSON object
     }));
-    console.log('>>>insertedKeyresults', keyResultsResponse)
 }
 
 async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
