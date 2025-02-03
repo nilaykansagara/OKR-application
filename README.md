@@ -1,3 +1,3 @@
 ## OKR Application Conflict
 
-### we are using red theme
+### we are using dark theme
