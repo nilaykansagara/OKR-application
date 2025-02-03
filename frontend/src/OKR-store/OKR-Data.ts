@@ -40,7 +40,6 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
         body: JSON.stringify(objectiveToInsert)
     })
     const insertedObjective = await objectiveResponse.json()
-    console.log('>>>InsertedObjective', insertedObjective.id)
     const keyResultsToInsert: KeyResultDto[] = objective.keyResults.map(keyresult => ({
         title: keyresult.title,
         initial_value: Number(keyresult.initialValue),
