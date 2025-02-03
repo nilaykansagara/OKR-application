@@ -62,12 +62,13 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
 }
 
 async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
+
     await fetch(jsonAPI + "/" + objective.id, {method: "PUT", body: JSON.stringify(objective)})
 }
 
 async function deleteOKRData(id: string): Promise<void> {
     try {
-        await fetch(jsonAPI + "/" + id, {method: "DELETE"})
+        await fetch(objectivesAPI + "/" + id, {method: "DELETE"})
     } catch (e) {
         console.log(e)
     }
