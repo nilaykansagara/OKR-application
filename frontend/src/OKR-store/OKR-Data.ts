@@ -1,4 +1,4 @@
-import {KeyResultType, ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
+import {KeyResultDto, KeyResultType, ObjectiveDto, ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 
 const jsonAPI = "http://localhost:3000/objectives";
 const objectivesAPI = "http://localhost:5040/objectives";
@@ -28,12 +28,37 @@ async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
             keyResults
         };
     })
-    
+
     return objectivesWithId;
 }
 
 async function insertOKRData(objective: ObjectiveType): Promise<void> {
-    await fetch(jsonAPI, {method: "POST", body: JSON.stringify(objective)})
+    const objectiveToInsert: ObjectiveDto = {title: objective.title}
+    const objectiveResponse = await fetch(objectivesAPI, {
+        headers: {"Content-Type": "application/json"},
+        method: "POST",
+        body: JSON.stringify(objectiveToInsert)
+    })
+    const insertedObjective = await objectiveResponse.json()
+    console.log('>>>InsertedObjective', insertedObjective.id)
+    const keyResultsToInsert: KeyResultDto[] = objective.keyResults.map(keyresult => ({
+        title: keyresult.title,
+        initial_value: Number(keyresult.initialValue),
+        current_value: Number(keyresult.currentValue),
+        target_value: Number(keyresult.targetValue),
+        metrics: keyresult.metrics,
+        objectiveId: insertedObjective.id
+    }))
+
+    const keyResultsResponse = await Promise.all(keyResultsToInsert.map(async (keyResultToInsert) => {
+        const response = await fetch(keyResultsAPI, {
+            headers: {"Content-Type": "application/json"},
+            method: "POST",
+            body: JSON.stringify(keyResultToInsert),
+        });
+        return response.json();  // Assuming the response is a JSON object
+    }));
+    console.log('>>>insertedKeyresults', keyResultsResponse)
 }
 
 async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
