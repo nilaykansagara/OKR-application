@@ -1,8 +1,10 @@
 import {KeyResultDto, KeyResultType, ObjectiveDto, ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 
+
 const jsonAPI = "http://localhost:3000/objectives";
 const objectivesAPI = "http://localhost:5040/objectives";
 const keyResultsAPI = "http://localhost:5040/key-results";
+const objectiveGenAiAPI = "http://localhost:5040/objective-gen-ai";
 
 
 async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
@@ -33,6 +35,7 @@ async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
 }
 
 async function insertOKRData(objective: ObjectiveType): Promise<void> {
+    console.log(objective);
     const objectiveToInsert: ObjectiveDto = {title: objective.title}
     const objectiveResponse = await fetch(objectivesAPI, {
         headers: {"Content-Type": "application/json"},
@@ -77,5 +80,15 @@ async function deleteOKRData(id: string): Promise<void> {
     }
 }
 
+async function getAIGeneratedObjective(query: string) {
+    const response = await fetch(objectiveGenAiAPI + "?query=" + encodeURIComponent(query), {method: "GET"});
+    if (response.ok) {
+        const aiGeneratedObjective: ObjectiveType = await response.json();
+        return aiGeneratedObjective;
+    } else {
+        console.error('Error fetching objective:', response.statusText);
+    }
+}
 
-export {getOKRData, insertOKRData, updateOKRData, deleteOKRData}
+
+export {getOKRData, insertOKRData, updateOKRData, deleteOKRData, getAIGeneratedObjective}
