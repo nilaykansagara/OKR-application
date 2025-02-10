@@ -14,7 +14,8 @@ const CreateOkrForm = ({
                            setObjectivesWithId,
                        }: CreateOkrFormProps) => {
     const [newObjective, setNewObjective] = useState<string>("");
-    const [objectiveGenerationQuery, setobjectiveGenerationQuery] = useState<string>("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [objectiveGenerationQuery, setObjectiveGenerationQuery] = useState<string>("");
     const [keyResults, setKeyResults] = useState<KeyResultType[]>([{
         title: "",
         initialValue: null,
@@ -28,26 +29,21 @@ const CreateOkrForm = ({
     }, [objectiveGenerationQuery]);
 
     async function generateObjectiveFromQuery() {
+        setIsLoading(true);
         const aiGeneratedObjective: ObjectiveType | undefined = await getAIGeneratedObjective(objectiveGenerationQuery);
         console.log(aiGeneratedObjective);
         if (aiGeneratedObjective) {
-            // Update the objective title
+
             setNewObjective(aiGeneratedObjective.title);
-
-            // Update the key results
             setKeyResults(aiGeneratedObjective.keyResults.map((kr) => ({
-                title: kr.title || "string",  // default to string if missing
-                initialValue: kr.initialValue || 1,  // default to 1 if missing
-                currentValue: kr.currentValue || 1,  // default to 1 if missing
-                targetValue: kr.targetValue || 1,  // default to 1 if missing
-                metrics: kr.metrics || "string",  // default to string if missing
+                title: kr.title || "string",
+                initialValue: kr.initialValue || 1,
+                currentValue: kr.currentValue || 1,
+                targetValue: kr.targetValue || 1,
+                metrics: kr.metrics || "string",
             })));
-
         }
-        // console.log(aiGeneratedObjective);
-        // setNewObjective(aiGeneratedObjective!.title);
-        // setKeyResults(aiGeneratedObjective!.keyResults);
-
+        setIsLoading(false);
     }
 
     async function addObjective() {
@@ -64,13 +60,16 @@ const CreateOkrForm = ({
         })
         const newOkRDataAdded = await getOKRData()
         setObjectivesWithId([...newOkRDataAdded]);
+        setObjectiveGenerationQuery("");
+        setNewObjective("")
         setKeyResults([{
-            title: "string",
-            initialValue: 1,
-            currentValue: 1,
-            targetValue: 1,
-            metrics: "string",
+            title: "",
+            initialValue: 0,
+            currentValue: 0,
+            targetValue: 0,
+            metrics: "",
         }]);
+
     }
 
     function handleChange(key: string, input: string | number, index: number) {
@@ -84,11 +83,11 @@ const CreateOkrForm = ({
         setKeyResults([
             ...keyResults,
             {
-                title: "string",
-                initialValue: 1,
-                currentValue: 1,
-                targetValue: 1,
-                metrics: "string",
+                title: "",
+                initialValue: 0,
+                currentValue: 0,
+                targetValue: 0,
+                metrics: "",
             },
         ]);
 
@@ -96,7 +95,13 @@ const CreateOkrForm = ({
     };
     return (
         <div className=" px-4 max-w-12xl mx-24 flex">
-            <div className="border-2 px-8 py-4 space-y-5 flex flex-col mx-6 my-3">
+            <div className={`border-2 px-8 py-4 space-y-5 flex flex-col mx-6 my-3 ${isLoading ? "blur-sm " : ""}`}>
+                {isLoading && (
+                    <div className="p-15xl absolute inset-0 bg-white opacity-50 flex justify-center items-center z-10">
+                        <div
+                            className="w-16 h-16 border-4 border-t-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                )}
                 <p className="text-2xl opacity-70 my-4 font-mono font-bold">
                     Create Objective Form
                 </p>
@@ -196,7 +201,8 @@ const CreateOkrForm = ({
                           className="focus:border-2 focus:border-blue-500 outline-0 border-2 border-gray-300 rounded-md px-3 py-2"
                           placeholder="Enter your objective description here..."
                           id="query"
-                          onChange={(e) => setobjectiveGenerationQuery(e.target.value)}>
+                          value={objectiveGenerationQuery}
+                          onChange={(e) => setObjectiveGenerationQuery(e.target.value)}>
                 </textarea>
                 <button
                     className="bg-green-500 px-2 self-end py-1 rounded-md text-white border-2 hover:bg-green-600"

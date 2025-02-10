@@ -57,11 +57,6 @@ export class ObjectiveGenAiService {
 
         if (typeof messageContent === 'string') {
             try {
-                //console.log('------original', messageContent);
-                // messageContent = messageContent.replace(/```.*?```/gs, '');
-                // messageContent = messageContent.replace(/```/g, '');
-                // messageContent = messageContent.trim();
-                //console.log('>>>>>trim', messageContent);
                 messageContent = JSON.parse(messageContent);
                 console.log('........JSON', messageContent);
             } catch (error) {

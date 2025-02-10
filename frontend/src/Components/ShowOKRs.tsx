@@ -1,7 +1,7 @@
 import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
-import {AddKeyResultModal} from "./AddKeyResultModal.tsx";
 import {useState} from "react";
+import {AddKeyResultModal} from "./AddKeyResultModal.tsx";
 import {UpdateObjectiveModal} from "./UpdateObjectiveModal.tsx";
 import {useDeleteKeyResult, useDeleteObjective} from "../Custom-Hooks/CustomHooks.tsx";
 
@@ -56,7 +56,7 @@ export function ShowOKRs({
                                                 Delete Objective
                                             </button>
                                             <button
-                                                className=" px-2 bg-red-500 hover:bg-red-600 rounded-md text-white py-1 text-sm "
+                                                className=" px-2 bg-yellow-500 hover:bg-yellow-600 rounded-md text-white py-1 text-sm "
                                                 onClick={() => {
                                                     setCurrentObjective(objective)
                                                     setIsUpdateObjectiveOpen(true);
