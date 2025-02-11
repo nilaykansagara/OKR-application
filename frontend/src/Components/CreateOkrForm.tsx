@@ -5,7 +5,7 @@ import {getAIGeneratedObjective, getOKRData, insertOKRData} from "../OKR-store/O
 type CreateOkrFormProps = {
     objectives: ObjectiveType[] | null,
     setObjectives: React.Dispatch<React.SetStateAction<ObjectiveType[] | null>>,
-    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[] | null>>
+    setObjectivesWithId: React.Dispatch<React.SetStateAction<ObjectiveTypeWithId[]>>
 }
 
 const CreateOkrForm = ({
@@ -18,9 +18,9 @@ const CreateOkrForm = ({
     const [objectiveGenerationQuery, setObjectiveGenerationQuery] = useState<string>("");
     const [keyResults, setKeyResults] = useState<KeyResultType[]>([{
         title: "",
-        initialValue: null,
-        currentValue: null,
-        targetValue: null,
+        initialValue: 0,
+        currentValue: 0,
+        targetValue: 0,
         metrics: "",
     }]);
 
@@ -47,8 +47,9 @@ const CreateOkrForm = ({
     }
 
     async function addObjective() {
+        console.log(objectives);
         setObjectives([
-            ...objectives,
+
             {
                 title: newObjective,
                 keyResults: keyResults,
@@ -141,7 +142,7 @@ const CreateOkrForm = ({
                                         className="shadow-lg  px-4 py-2 w-full  focus:border-2 focus:border-blue-500 outline-0 border-2 border-gray-300 rounded-md"
                                         type="text"
                                         placeholder="Initial Value"
-                                        value={keyResults[index].initialValue}
+                                        //value={keyResults[index].initialValue}
                                         onChange={(e) => {
                                             handleChange("initialValue", e.target.value, index)
                                         }}
@@ -150,7 +151,7 @@ const CreateOkrForm = ({
                                         className="shadow-lg w-full px-4 py-2  focus:border-2 focus:border-blue-500 outline-0 border-2 border-gray-300 rounded-md"
                                         type="text"
                                         placeholder="Current Value"
-                                        value={keyResults[index].currentValue}
+                                        //value={keyResults[index].currentValue}
                                         onChange={(e) => {
                                             handleChange("currentValue", e.target.value, index)
                                         }}
@@ -159,7 +160,7 @@ const CreateOkrForm = ({
                                         className="shadow-lg w-full px-4 py-2  focus:border-2 focus:border-blue-500 outline-0 border-2 border-gray-300 rounded-md"
                                         type="text"
                                         placeholder="Target Value"
-                                        value={keyResults[index].targetValue}
+                                        //value={keyResults[index].targetValue}
                                         onChange={(e) => {
                                             handleChange("targetValue", e.target.value, index)
                                         }}

@@ -78,14 +78,14 @@ export function ShowOKRs({
                             <h1>{kr.title}</h1>
                             <button className="border bg-red-500 hover:bg-red-600 rounded-md px-2 text-white"
                                     onClick={() => {
-                                        deleteKeyResult(index, i)
+                                        deleteKeyResult(index, i, kr.id)
                                     }}>
                               Delete
                             </button>
                           </span><span className="flex justify-between">
-                            <p>Initial: {kr.initialValue}</p>
-                            <p>Current: {kr.currentValue}</p>
-                            <p>Target: {kr.targetValue}</p>
+                            <p>Initial: {kr.initial_value}</p>
+                            <p>Current: {kr.current_value}</p>
+                            <p>Target: {kr.target_value}</p>
                             <p>Metrics: {kr.metrics}</p>
                           </span>
                                                 </div>

@@ -1,0 +1,7 @@
+services:
+  okrsever:
+    image: 430118836389.dkr.ecr.eu-north-1.amazonaws.com/okr/okrserver:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:admin1234@database-1.creoqgi0kq1x.eu-north-1.rds.amazonaws.com:5432/okrs?schema=public
+    ports:
+      - "5040:5040"

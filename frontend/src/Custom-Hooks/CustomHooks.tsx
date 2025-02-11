@@ -1,4 +1,4 @@
-import {deleteOKRData, getOKRData, updateOKRData} from "../OKR-store/OKR-Data.ts";
+import {deleteObjectiveKeyResult, deleteOKRData, getOKRData, updateOKRData} from "../OKR-store/OKR-Data.ts";
 import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {useCallback} from "react";
@@ -9,7 +9,8 @@ type useDeleteKeyResultProps = {
 }
 
 function useDeleteKeyResult({objectivesWithId, setObjectivesWithId}: useDeleteKeyResultProps) {
-    const deleteKeyResult = useCallback((objIndex: number, keyResultIndex: number) => {
+    const deleteKeyResult = useCallback(async (objIndex: number, keyResultIndex: number, idToDelete: number) => {
+            await deleteObjectiveKeyResult(idToDelete);
             const selectedObjective = objectivesWithId[objIndex];
             const keyResultToDelete = selectedObjective.keyResults[keyResultIndex];
             selectedObjective.keyResults = selectedObjective.keyResults.filter(key => key != keyResultToDelete);
@@ -17,7 +18,7 @@ function useDeleteKeyResult({objectivesWithId, setObjectivesWithId}: useDeleteKe
                 setObjectivesWithId([...objectivesWithId])
             });
         },
-        [objectivesWithId,setObjectivesWithId]
+        [objectivesWithId, setObjectivesWithId]
     );
     return {deleteKeyResult};
 }
@@ -25,12 +26,12 @@ function useDeleteKeyResult({objectivesWithId, setObjectivesWithId}: useDeleteKe
 function useDeleteObjective({objectivesWithId, setObjectivesWithId}: useDeleteKeyResultProps) {
     const deleteObjective = useCallback((objectiveWithId: ObjectiveTypeWithId) => {
             deleteOKRData(objectiveWithId.id).then(() => {
-                getOKRData().then((values)=>setObjectivesWithId(values));
+                getOKRData().then((values) => setObjectivesWithId(values));
             });
         },
-        [objectivesWithId,setObjectivesWithId]
+        [objectivesWithId, setObjectivesWithId]
     );
     return {deleteObjective};
 }
 
-export{useDeleteKeyResult, useDeleteObjective}
+export {useDeleteKeyResult, useDeleteObjective}

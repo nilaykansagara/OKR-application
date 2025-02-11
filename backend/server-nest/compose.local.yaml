@@ -1,0 +1,25 @@
+version: "3.7"
+services:
+  database-1:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: okrs
+    ports:
+      - "5432:5432"
+    networks:
+      - custom_network
+  okrsever:
+    image: 430118836389.dkr.ecr.eu-north-1.amazonaws.com/okr/okrserver:latest
+    hostname: localhost
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@:5432/okrs?schema=public
+    ports:
+      - "5040:5040"
+    networks:
+      - custom_network
+
+networks:
+  custom_network:
+    name: custom_network

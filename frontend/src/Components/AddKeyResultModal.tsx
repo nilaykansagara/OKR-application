@@ -1,7 +1,7 @@
-import {useState} from "react";
-import {KeyResultType, ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
-import {updateOKRData} from "../OKR-store/OKR-Data.ts";
+import {useState} from "react";
+import {KeyResultDto, KeyResultType, KeyResultWithId, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
+import {insertKeyResultToObjective, updateOKRData} from "../OKR-store/OKR-Data.ts";
 
 type AddKeyResultModalProps = {
     isOpen: boolean,
@@ -29,10 +29,19 @@ export function AddKeyResultModal({
     );
 
     const addKeyResult = () => {
-        objectivesWithId.map((key: ObjectiveType) => {
+        objectivesWithId.map(async (key: ObjectiveTypeWithId) => {
             if (key === currentObjectiveWithId) {
                 console.log(key);
-                key.keyResults.push(newKeyResult);
+                const keyResultWithObjectiveId: KeyResultDto = {
+                    title: newKeyResult.title,
+                    initial_value: Number(newKeyResult.initialValue),
+                    current_value: Number(newKeyResult.currentValue),
+                    target_value: Number(newKeyResult.targetValue),
+                    metrics: newKeyResult.metrics,
+                    objectiveId: Number(currentObjectiveWithId.id)
+                }
+                const insertedKeyResult: KeyResultWithId = await insertKeyResultToObjective(keyResultWithObjectiveId);
+                key.keyResults.push(insertedKeyResult);
                 console.log(key);
             }
         })

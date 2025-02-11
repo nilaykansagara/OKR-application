@@ -1,7 +1,15 @@
-import {KeyResultDto, KeyResultType, ObjectiveDto, ObjectiveType, ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
+import {
+    KeyResultDto,
+    KeyResultServerType,
+    KeyResultType,
+    KeyResultWithId,
+    ObjectiveDto,
+    ObjectiveType,
+    ObjectiveTypeWithId
+} from "../Types/OKRTypes.ts";
 
 
-const jsonAPI = "http://localhost:3000/objectives";
+// const jsonAPI = "http://localhost:3000/objectives";
 const objectivesAPI = "http://localhost:5040/objectives";
 const keyResultsAPI = "http://localhost:5040/key-results";
 const objectiveGenAiAPI = "http://localhost:5040/objective-gen-ai";
@@ -15,9 +23,10 @@ async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
     const objectivesResponse = await objectives.json();
     const keyResultsResponse = await keyResults.json();
 
-    const objectivesWithId: ObjectiveTypeWithId[] = objectivesResponse.map((objective) => {
-        const relatedKeyResults = keyResultsResponse.filter(keyresult => keyresult.objectiveId === objective.id);
-        const keyResults: KeyResultType[] = relatedKeyResults.map(keyresult => ({
+    const objectivesWithId: ObjectiveTypeWithId[] = objectivesResponse.map((objective: ObjectiveTypeWithId) => {
+        const relatedKeyResults = keyResultsResponse.filter((keyresult: KeyResultWithId) => keyresult.objectiveId === objective.id);
+        const keyResults: KeyResultWithId[] = relatedKeyResults.map((keyresult: KeyResultWithId) => ({
+            id: keyresult.id,
             title: keyresult.title,
             initialValue: keyresult.initial_value,
             currentValue: keyresult.current_value,
@@ -43,7 +52,7 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
         body: JSON.stringify(objectiveToInsert)
     })
     const insertedObjective = await objectiveResponse.json()
-    const keyResultsToInsert: KeyResultDto[] = objective.keyResults.map(keyresult => ({
+    const keyResultsToInsert: KeyResultDto[] = objective.keyResults.map((keyresult: KeyResultType) => ({
         title: keyresult.title,
         initial_value: Number(keyresult.initialValue),
         current_value: Number(keyresult.currentValue),
@@ -52,7 +61,7 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
         objectiveId: insertedObjective.id
     }))
 
-    const keyResultsResponse = await Promise.all(keyResultsToInsert.map(async (keyResultToInsert) => {
+    const keyResultsResponse: KeyResultServerType[] = await Promise.all(keyResultsToInsert.map(async (keyResultToInsert: KeyResultDto) => {
         const response = await fetch(keyResultsAPI, {
             headers: {"Content-Type": "application/json"},
             method: "POST",
@@ -60,6 +69,8 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
         });
         return response.json();  // Assuming the response is a JSON object
     }));
+    insertedObjective.keyResults = keyResultsResponse;
+    return insertedObjective;
 }
 
 async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
@@ -72,9 +83,27 @@ async function updateOKRData(objective: ObjectiveTypeWithId): Promise<void> {
     console.log('>>>>>>updated objective', response);
 }
 
-async function deleteOKRData(id: string): Promise<void> {
+async function deleteOKRData(id: number): Promise<void> {
     try {
         await fetch(objectivesAPI + "/" + id, {method: "DELETE"})
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+async function insertKeyResultToObjective(keyresult: KeyResultDto): Promise<KeyResultWithId> {
+    const response = await fetch(keyResultsAPI + "/", {
+        headers: {"Content-Type": "application/json"},
+        method: "POST",
+        body: JSON.stringify(keyresult)
+    })
+    const insertedKeyResult: KeyResultWithId = await response.json();
+    return insertedKeyResult;
+}
+
+async function deleteObjectiveKeyResult(id: number) {
+    try {
+        await fetch(keyResultsAPI + "/" + id, {method: "DELETE"})
     } catch (e) {
         console.log(e)
     }
@@ -91,4 +120,12 @@ async function getAIGeneratedObjective(query: string) {
 }
 
 
-export {getOKRData, insertOKRData, updateOKRData, deleteOKRData, getAIGeneratedObjective}
+export {
+    getOKRData,
+    insertOKRData,
+    updateOKRData,
+    deleteOKRData,
+    getAIGeneratedObjective,
+    insertKeyResultToObjective,
+    deleteObjectiveKeyResult
+}
