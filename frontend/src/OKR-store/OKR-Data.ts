@@ -28,9 +28,9 @@ async function getOKRData(): Promise<ObjectiveTypeWithId[]> {
         const keyResults: KeyResultWithId[] = relatedKeyResults.map((keyresult: KeyResultWithId) => ({
             id: keyresult.id,
             title: keyresult.title,
-            initialValue: keyresult.initial_value,
-            currentValue: keyresult.current_value,
-            targetValue: keyresult.target_value,
+            initial_value: keyresult.initial_value,
+            current_value: keyresult.current_value,
+            target_value: keyresult.target_value,
             metrics: keyresult.metrics,
         }));
         return {

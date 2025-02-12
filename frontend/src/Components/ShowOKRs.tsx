@@ -70,6 +70,7 @@ export function ShowOKRs({
                                             </button>
                                         </div>
                                         {objective.keyResults.map((kr, i) => {
+                                            console.log('..........kr', kr);
                                             return (
                                                 <div
                                                     className="pl-4 border bg-gray-100 rounded-md py-2 px-2 shadow-lg space-y-2">
