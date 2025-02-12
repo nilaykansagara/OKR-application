@@ -10,9 +10,9 @@ import {
 
 
 // const jsonAPI = "http://localhost:3000/objectives";
-const objectivesAPI = "http://localhost:5040/objectives";
-const keyResultsAPI = "http://localhost:5040/key-results";
-const objectiveGenAiAPI = "http://localhost:5040/objective-gen-ai";
+const objectivesAPI = "http://16.16.27.255:5040/objectives";
+const keyResultsAPI = "http://16.16.27.255:5040/key-results";
+const objectiveGenAiAPI = "http://16.16.27.255:5040/objective-gen-ai";
 
 
 async function getOKRData(): Promise<ObjectiveTypeWithId[]> {

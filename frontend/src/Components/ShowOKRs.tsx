@@ -1,3 +1,4 @@
+import {FaEdit, FaPlus, FaTrash} from 'react-icons/fa';
 import {ObjectiveTypeWithId} from "../Types/OKRTypes.ts";
 import * as React from "react";
 import {useState} from "react";
@@ -38,49 +39,47 @@ export function ShowOKRs({
                                             {index + 1}. {objective.title}
                                         </p>
 
-                                        <div className="space-x-4">
+                                        <div className="space-x-4 flex">
                                             <button
-                                                className="px-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white py-1 text-sm"
+                                                onClick={() => {
+                                                    deleteObjective(objective);
+                                                }}>
+                                                <FaTrash className="text-red-500 text-2xl"/>
+                                            </button>
+                                            <button
+                                                onClick={() => {
+                                                    setCurrentObjective(objective)
+                                                    setIsUpdateObjectiveOpen(true);
+                                                }}>
+                                                <FaEdit className="text-yellow-500 text-2xl"/>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div className="px-16 py-4 space-y-4">
+                                        <div className="flex justify-between">
+                                            <div className="font-medium text-lg">Key Results</div>
+                                            <button
+                                                className=" flex px-2 bg-blue-500 hover:bg-blue-600 rounded-md text-white py-1 text-sm"
                                                 onClick={() => {
                                                     setIsOpen(true);
                                                     setCurrentObjective(objective);
                                                     console.log(objective);
                                                 }}>
-                                                Add Key Result
+                                                <FaPlus className="mt-1 mr-2"/>Add Key Result
                                             </button>
-                                            <button
-                                                className=" px-2 bg-red-500 hover:bg-red-600 rounded-md text-white py-1 text-sm "
-                                                onClick={() => {
-                                                    deleteObjective(objective);
-                                                }}>
-                                                Delete Objective
-                                            </button>
-                                            <button
-                                                className=" px-2 bg-yellow-500 hover:bg-yellow-600 rounded-md text-white py-1 text-sm "
-                                                onClick={() => {
-                                                    setCurrentObjective(objective)
-                                                    setIsUpdateObjectiveOpen(true);
-                                                }}>
-                                                Update Objective
-                                            </button>
-
                                         </div>
-                                    </div>
-
-                                    <div className="px-16 py-4 space-y-4">
-                                        <div className="font-medium text-lg">Key Results</div>
-
                                         {objective.keyResults.map((kr, i) => {
                                             return (
                                                 <div
                                                     className="pl-4 border bg-gray-100 rounded-md py-2 px-2 shadow-lg space-y-2">
                           <span className="flex justify-between">
                             <h1>{kr.title}</h1>
-                            <button className="border bg-red-500 hover:bg-red-600 rounded-md px-2 text-white"
-                                    onClick={() => {
-                                        deleteKeyResult(index, i, kr.id)
-                                    }}>
-                              Delete
+                            <button
+                                onClick={() => {
+                                    deleteKeyResult(index, i, kr.id)
+                                }}>
+                              <FaTrash className="text-red-500"/>
                             </button>
                           </span><span className="flex justify-between">
                             <p>Initial: {kr.initial_value}</p>
@@ -109,7 +108,5 @@ export function ShowOKRs({
                                   setIsUpdateObjectiveOpen={setIsUpdateObjectiveOpen}></UpdateObjectiveModal>
 
         </div>
-
-
     )
 }
