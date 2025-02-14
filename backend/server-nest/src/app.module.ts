@@ -1,5 +1,4 @@
 import {Module} from '@nestjs/common';
-
 import {ObjectivesModule} from './objectives/objectives.module';
 import {DatabaseModule} from './database/database.module';
 import {PrismaService} from './prisma/prisma.service';

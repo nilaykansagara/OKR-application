@@ -35,4 +35,10 @@ export class KeyResultsController {
         const keyResultCompletionServiceResponse = this.keyResultCompletionService.isComplete(keyResultDto);
         return keyResultCompletionServiceResponse;
     }
+
+    @Get('/progress/:id')
+    async progress(@Param('id') id: string) {
+        const keyResultId = parseInt(id, 10);
+        return this.keyResultsService.progress(keyResultId);
+    }
 }

@@ -90,4 +90,26 @@ describe("KeyResultsService", () => {
             expect(dummyKeyResult).toEqual(response)
         })
     })
+
+    describe('progress', () => {
+        it('should return progress percentage', async () => {
+            // arrange
+            const keyResult = {
+                id: 1,
+                title: "dummy keyresult 1",
+                initial_value: 0,
+                current_value: 1,
+                target_value: 10,
+                metrics: "dummy metrics",
+                objectiveId: 1
+            };
+            prismaService.keyResult.findUnique.mockResolvedValue(keyResult);
+
+            // act
+            const response = await keyResultsService.progress(keyResult.id);
+
+            // assert
+            expect(response).toEqual("10.00");
+        });
+    });
 })

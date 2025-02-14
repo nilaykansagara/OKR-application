@@ -14,6 +14,7 @@ export class KeyResultsService {
 
     async fetchUnique(id: number) {
         const keyResult = await this.prismaService.keyResult.findUnique({where: {id}});
+        if (!keyResult) throw new Error("No keyResult found!");
         return keyResult;
     }
 
@@ -30,5 +31,13 @@ export class KeyResultsService {
     async deleteOne(id: number) {
         const keyResult = await this.prismaService.keyResult.delete({where: {id: id}});
         return keyResult;
+    }
+
+    async progress(id: number) {
+        const keyResult = await this.fetchUnique(id);
+
+        const percentage = (keyResult.current_value * 100 / keyResult.target_value);
+        const roundedPercentage = percentage.toFixed(2);
+        return roundedPercentage;
     }
 }
