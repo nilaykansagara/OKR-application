@@ -182,13 +182,13 @@ const CreateOkrForm = ({
                 </div>
 
                 <button
-                    className="bg-blue-400 px-2 self-start py-1 rounded-md text-white ring-2  hover:bg-blue-500 mr-6 block"
+                    className="shadow-lg bg-blue-400 px-2 self-start py-1 rounded-md text-white ring-2  hover:bg-blue-500 mr-6 block"
                     onClick={addKeyResult}
                 >
                     Add Key Result
                 </button>
                 <button
-                    className="bg-green-500 px-2 self-end py-1 rounded-md text-white border-2 hover:bg-green-600"
+                    className="shadow-lg bg-green-500 px-2 self-end py-1 rounded-md text-white border-2 hover:bg-green-600"
                     onClick={addObjective}
                 >
                     Add Objective
@@ -206,7 +206,7 @@ const CreateOkrForm = ({
                           onChange={(e) => setObjectiveGenerationQuery(e.target.value)}>
                 </textarea>
                 <button
-                    className="bg-green-500 px-2 self-end py-1 rounded-md text-white border-2 hover:bg-green-600"
+                    className="shadow-lg bg-green-500 px-2 self-end py-1 rounded-md text-white border-2 hover:bg-green-600"
                     onClick={generateObjectiveFromQuery}
                 >
                     Create Objective
