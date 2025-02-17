@@ -30,9 +30,23 @@ function App() {
                 <button className="bg-gray-500 hover:bg-gray-700 px-2 py-1 text-white"><Link to="/showOKR">Show
                     OKR</Link></button>
             </div>
-            <div className="pt-12">
+            <div className="items-center pt-12">
                 <Routes>
-                    <Route path="/" element={<div>Welcome</div>}/>
+                    <Route path="/" element={
+                        <div className="flex py-60 justify-center items-center">
+                            <div className="max-w-4xl text-center px-4">
+                                <h1 className="text-3xl">Welcome! to <span
+                                    className="font-bold text-teal-500">OKR-Application</span></h1>
+                                <p className="mt-4">
+                                    This is a simple project built for learning purposes. It’s focused on basic CRUD
+                                    functionality and isn’t designed for a polished user experience. While the app
+                                    works,
+                                    it’s not intended to be a fully refined or feature-rich product. Thanks for checking
+                                    it out—this app is all about learning and experimenting!
+                                </p>
+                            </div>
+                        </div>
+                    }/>
                     <Route path="/createOKR" element={<CreateOkrForm
                         objectives={objectives ?? []}
                         setObjectives={setObjectives}
