@@ -4,6 +4,7 @@ import {ObjectiveDto} from "./objectives.dto";
 
 @Controller('objectives')
 export class ObjectivesController {
+    
     constructor(private readonly objectivesService: ObjectivesService) {
     }
 
@@ -13,19 +14,19 @@ export class ObjectivesController {
     }
 
     @Post('/')
-    createOne(@Body() objectiveDto: ObjectiveDto) {
-        return this.objectivesService.createOne(objectiveDto);
+    createOne(@Body() dto: ObjectiveDto) {
+        return this.objectivesService.createOne(dto);
     }
 
     @Put(':id')
-    updateOne(@Param('id') id: string, @Body() objectiveDto: ObjectiveDto) {
-        const objectiveId = parseInt(id, 10);
-        return this.objectivesService.updateOne(objectiveId, objectiveDto);
+    updateOne(@Param('id') id: string, @Body() dto: ObjectiveDto) {
+        const paramID = parseInt(id, 10);
+        return this.objectivesService.updateOne(paramID, dto);
     }
 
     @Delete(':id')
     deleteOne(@Param('id') id: string) {
-        const objectiveId = parseInt(id, 10);
-        return this.objectivesService.deleteOne(objectiveId);
+        const paramId = parseInt(id, 10);
+        return this.objectivesService.deleteOne(paramId);
     }
 }

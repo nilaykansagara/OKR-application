@@ -5,6 +5,7 @@ import {KeyResultCompletionService} from "./key-result-completion.service";
 
 @Controller('key-results')
 export class KeyResultsController {
+
     constructor(private keyResultsService: KeyResultsService, private keyResultCompletionService: KeyResultCompletionService) {
     }
 
@@ -14,31 +15,25 @@ export class KeyResultsController {
     }
 
     @Post('/')
-    createOne(@Body() keyResultDto: KeyResultDto) {
-        return this.keyResultsService.createOne(keyResultDto);
+    createOne(@Body() dto: KeyResultDto) {
+        return this.keyResultsService.createOne(dto);
     }
 
     @Put(':id')
-    updateOne(@Param('id') id: string, @Body() keyResultDto: KeyResultDto) {
-        const keyResultId = parseInt(id, 10);
-        return this.keyResultsService.updateOne(keyResultId, keyResultDto);
+    updateOne(@Param('id') id: string, @Body() dto: KeyResultDto) {
+        const paramId = parseInt(id, 10);
+        return this.keyResultsService.updateOne(paramId, dto);
     }
 
     @Delete(':id')
     deleteOne(@Param('id') id: string) {
-        const keyResultId = parseInt(id, 10);
-        return this.keyResultsService.deleteOne(keyResultId);
-    }
-
-    @Post('/is-key-result-completed')
-    isComplete(@Body() keyResultDto: KeyResultDto) {
-        const keyResultCompletionServiceResponse = this.keyResultCompletionService.isComplete(keyResultDto);
-        return keyResultCompletionServiceResponse;
+        const paramId = parseInt(id, 10);
+        return this.keyResultsService.deleteOne(paramId);
     }
 
     @Get('/progress/:id')
-    async progress(@Param('id') id: string) {
-        const keyResultId = parseInt(id, 10);
-        return this.keyResultsService.progress(keyResultId);
+    progress(@Param('id') id: string) {
+        const paramId = parseInt(id, 10);
+        return this.keyResultsService.progress(paramId);
     }
 }

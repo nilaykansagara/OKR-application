@@ -9,22 +9,17 @@ export class ObjectivesService {
     }
 
     async getAll() {
-        try {
-            const objectives = await this.prismaService.objective.findMany();
-            return objectives;
-        } catch (error) {
-            throw new Error('Failed to fetch objectives');
-        }
-
+        const objectives = await this.prismaService.objective.findMany();
+        return objectives;
     }
 
-    async createOne(objectiveDto: ObjectiveDto) {
-        const objective = await this.prismaService.objective.create({data: objectiveDto});
+    async createOne(dto: ObjectiveDto) {
+        const objective = await this.prismaService.objective.create({data: dto});
         return objective;
     }
 
-    async updateOne(id: number, objectiveDto: ObjectiveDto) {
-        const objective = await this.prismaService.objective.update({where: {id: id}, data: objectiveDto});
+    async updateOne(id: number, dto: ObjectiveDto) {
+        const objective = await this.prismaService.objective.update({where: {id: id}, data: dto});
         return objective;
     }
 
@@ -32,4 +27,5 @@ export class ObjectivesService {
         const objective = await this.prismaService.objective.delete({where: {id: id}});
         return objective;
     }
+
 }

@@ -4,6 +4,7 @@ import {z} from "zod"
 
 @Injectable()
 export class ObjectiveGenAiService {
+
     model = new AzureChatOpenAI({
         model: 'gpt-4o',
         temperature: 1,
@@ -14,7 +15,6 @@ export class ObjectiveGenAiService {
         azureOpenAIApiDeploymentName: "gpt-4o-interns-bootcamp-2025", // In Node.js defaults to process.env.AZURE_OPENAI_API_DEPLOYMENT_NAME
         azureOpenAIApiVersion: "2024-08-01-preview", // In Node.js defaults to process.env.AZURE_OPENAI_API_VERSION
     });
-
 
     systemPrompt = `Make objective with a proper objective title and required key results. Please return **only** an object in JSON format of type "ObjectiveType".
 
@@ -49,10 +49,12 @@ export class ObjectiveGenAiService {
     Return **only** the JSON object, no other text, markdown, or extra information.`;
 
     async getResponse(query: string): Promise<any> {
+
         const aiMsg = await this.model.invoke([
             ['system', this.systemPrompt],
             ['human', query]
         ]);
+
         let messageContent = aiMsg.content;
 
         if (typeof messageContent === 'string') {
@@ -72,10 +74,12 @@ export class ObjectiveGenAiService {
             targetValue: z.number(),
             metrics: z.string()
         });
+                    
         const objectiveZod = z.object({
             title: z.string(),
             keyResults: z.array(keyResultZod)
         });
+
         try {
             const validatedObjective = objectiveZod.parse(messageContent);
             console.log(validatedObjective);

@@ -11,4 +11,5 @@ export class ObjectiveGenAiController {
     getResponse(@Query('query') query: string): Promise<any> {
         return this.objectiveGenAiService.getResponse(query);
     }
+    
 }

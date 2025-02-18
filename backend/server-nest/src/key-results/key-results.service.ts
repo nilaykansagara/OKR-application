@@ -4,6 +4,7 @@ import {KeyResultDto} from "./key-result.dto";
 
 @Injectable()
 export class KeyResultsService {
+    
     constructor(private prismaService: PrismaService) {
     }
 
@@ -12,7 +13,7 @@ export class KeyResultsService {
         return keyResults;
     }
 
-    async fetchUnique(id: number) {
+    async getUnique(id: number) {
         const keyResult = await this.prismaService.keyResult.findUnique({where: {id}});
         if (!keyResult) throw new Error("No keyResult found!");
         return keyResult;
@@ -34,7 +35,7 @@ export class KeyResultsService {
     }
 
     async progress(id: number) {
-        const keyResult = await this.fetchUnique(id);
+        const keyResult = await this.getUnique(id);
 
         const percentage = (keyResult.current_value * 100 / keyResult.target_value);
         const roundedPercentage = percentage.toFixed(2);

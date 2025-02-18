@@ -70,7 +70,7 @@ async function insertOKRData(objective: ObjectiveType): Promise<void> {
             method: "POST",
             body: JSON.stringify(keyResultToInsert),
         });
-        return response.json();  // Assuming the response is a JSON object
+        return response.json();
     }));
     insertedObjective.keyResults = keyResultsResponse;
     return insertedObjective;

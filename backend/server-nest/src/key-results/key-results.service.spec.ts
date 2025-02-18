@@ -25,7 +25,7 @@ describe("KeyResultsService", () => {
 
     })
 
-    describe("fetch unique function", () => {
+    describe("get one function", () => {
         let objective: ObjectiveDto & { id: number }
         beforeEach(async () => {
             prismaService.keyResult.findUnique.mockResolvedValue({
@@ -44,7 +44,7 @@ describe("KeyResultsService", () => {
 
         it("should return unique key result", async () => {
 
-            const response = await keyResultsService.fetchUnique(3);
+            const response = await keyResultsService.getUnique(3);
             console.log(response);
             expect(response).toBeDefined();
         })
@@ -59,7 +59,7 @@ describe("KeyResultsService", () => {
                 metrics: "dummy metrics",
                 objectiveId: 1
             }
-            expect(await keyResultsService.fetchUnique(1)).toEqual({...dummyKeyResult, id: expect.any(Number)})
+            expect(await keyResultsService.getUnique(1)).toEqual({...dummyKeyResult, id: expect.any(Number)})
         })
     })
 
